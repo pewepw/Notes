@@ -1,5 +1,6 @@
 package my.appstudio.notes;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +14,7 @@ import my.appstudio.notes.adapters.NotesRecyclerAdapter;
 import my.appstudio.notes.models.Note;
 import my.appstudio.notes.util.VerticalSpacingItemDecorator;
 
-public class NotesListActivity extends AppCompatActivity {
+public class NotesListActivity extends AppCompatActivity implements NotesRecyclerAdapter.OnNoteListener {
 
     private static final String TAG = "NotesListActivity";
 
@@ -55,7 +56,14 @@ public class NotesListActivity extends AppCompatActivity {
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
 
-        mNoteRecyclerAdapter = new NotesRecyclerAdapter(mNotes);
+        mNoteRecyclerAdapter = new NotesRecyclerAdapter(mNotes, this);
         mRecyclerView.setAdapter(mNoteRecyclerAdapter);
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Log.d(TAG, "onNoteClick: " + position);
+        Intent intent = new Intent(this, SomeActivity.class);
+        startActivity(intent);
     }
 }
